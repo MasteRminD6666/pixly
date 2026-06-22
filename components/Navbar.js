@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { FaBars, FaTimes, FaFacebookF, FaRobot } from "react-icons/fa";
 import { useLanguage } from "../context/LanguageContext";
@@ -46,12 +45,10 @@ const Navbar = () => {
         <Link href="/" passHref>
           <a className="flex items-center gap-3 group" onClick={closeMenu}>
             <div className="relative w-10 h-10 md:w-11 md:h-11 rounded-full overflow-hidden ring-2 ring-pixly-accent/30 group-hover:ring-pixly-accent transition-all duration-300 shrink-0">
-              <Image
+              <img
                 src="/logo.png"
                 alt="Pixly"
-                layout="fill"
-                objectFit="cover"
-                priority
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="hidden sm:block">

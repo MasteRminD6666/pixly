@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import React from "react";
 import {
   FaInstagram,
@@ -53,7 +52,7 @@ const Footer = () => {
           <div className="relative mb-6 group">
             <div className="absolute inset-0 bg-pixly-accent/25 rounded-full blur-3xl scale-125 group-hover:scale-150 transition-transform duration-700" />
             <div className="relative p-2 rounded-full ring-2 ring-pixly-accent/30 ring-offset-4 ring-offset-pixly-primary-dark">
-              <Image
+              <img
                 src="/pixly_transprent.png"
                 alt="Pixly"
                 width={160}
@@ -80,7 +79,7 @@ const Footer = () => {
               <Link href="/" passHref>
                 <a className="flex items-center gap-3 mb-4 group">
                   <div className="relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-pixly-accent/20 group-hover:ring-pixly-accent/50 transition-all">
-                    <Image src="/logo.png" alt="Pixly" layout="fill" objectFit="cover" />
+                    <img src="/logo.png" alt="Pixly" className="w-full h-full object-cover" />
                   </div>
                   <span className="text-xl font-bold">pixly</span>
                 </a>

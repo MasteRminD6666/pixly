@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import React from "react";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -22,7 +21,7 @@ const About = () => {
                 <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-pixly-accent/40 rounded-tr-lg" />
                 <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-pixly-accent/40 rounded-bl-lg" />
                 <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-pixly-accent/40 rounded-br-lg" />
-                <Image
+                <img
                   src="/pixlylogo.png"
                   alt="Pixly"
                   width={320}
