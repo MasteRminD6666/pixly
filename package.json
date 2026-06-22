@@ -1,5 +1,5 @@
 {
-  "name": "digital-agency-portfolio",
+  "name": "pixly",
   "private": true,
   "scripts": {
     "dev": "next dev",

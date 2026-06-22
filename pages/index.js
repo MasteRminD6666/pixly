@@ -1,15 +1,25 @@
-import HomeSlider from "../components/HomeSlider";
+import Hero from "../components/Hero";
+import VideoShowcase from "../components/VideoShowcase";
+import MarketingFocus from "../components/MarketingFocus";
 import About from "../components/About";
 import Services from "../components/Services";
-import Works from "../components/Works";
+import WhyChoose from "../components/WhyChoose";
+import Portfolio from "../components/Portfolio";
+import Testimonials from "../components/Testimonials";
+import Contact from "../components/Contact";
 
 export default function Home() {
   return (
     <>
-      <HomeSlider />
+      <Hero />
+      <VideoShowcase />
+      <MarketingFocus />
       <About />
       <Services />
-      <Works />
+      <WhyChoose />
+      <Portfolio />
+      <Testimonials />
+      <Contact />
     </>
   );
 }

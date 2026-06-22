@@ -1,72 +1,143 @@
 import Link from "next/link";
-import React, { useState } from "react";
-import { FaBars } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
+import Image from "next/image";
+import React, { useState, useEffect } from "react";
+import { FaBars, FaTimes, FaFacebookF, FaRobot } from "react-icons/fa";
+import { useLanguage } from "../context/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navbar = () => {
+  const { t } = useLanguage();
   const [navOpen, setNavOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const handleNavbar = () => {
-    if (navOpen) {
-      setNavOpen(false);
-    } else {
-      setNavOpen(true);
-    }
-  };
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = navOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [navOpen]);
+
+  const navLinks = [
+    { href: "/", label: t.nav.home, icon: null },
+    { href: "/#facebook-pages", label: t.nav.facebookPages, icon: FaFacebookF },
+    { href: "/#ai-marketing", label: t.nav.aiMarketing, icon: FaRobot },
+    { href: "/#services", label: t.nav.services, icon: null },
+    { href: "/#portfolio", label: t.nav.results, icon: null },
+    { href: "/#contact", label: t.nav.contact, icon: null },
+  ];
+
+  const closeMenu = () => setNavOpen(false);
 
   return (
-    <div className="px-2 sm:px-10 md:px-40 py-4 flex items-center justify-between bg-gray-900 text-white">
-      <div className="text-2xl font-bold">Code Scientist</div>
-      <ul
-        className={
+    <nav
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-premium ${
+        scrolled || navOpen ? "glass-nav shadow-lg" : "bg-transparent"
+      }`}
+      aria-label="Main navigation"
+    >
+      <div className="container flex items-center justify-between py-3 md:py-4">
+        {/* Brand */}
+        <Link href="/" passHref>
+          <a className="flex items-center gap-3 group" onClick={closeMenu}>
+            <div className="relative w-10 h-10 md:w-11 md:h-11 rounded-full overflow-hidden ring-2 ring-pixly-accent/30 group-hover:ring-pixly-accent transition-all duration-300 shrink-0">
+              <Image
+                src="/logo.png"
+                alt="Pixly"
+                layout="fill"
+                objectFit="cover"
+                priority
+              />
+            </div>
+            <div className="hidden sm:block">
+              <span className="block text-lg md:text-xl font-bold text-white tracking-tight leading-none">
+                pixly
+              </span>
+              <span className="block text-[10px] md:text-xs text-pixly-accent/90 font-medium mt-0.5">
+                {t.nav.tagline}
+              </span>
+            </div>
+          </a>
+        </Link>
+
+        {/* Desktop nav */}
+        <ul className="hidden xl:flex items-center gap-0.5">
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <Link href={link.href} passHref>
+                <a className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white/80 hover:text-pixly-accent transition-colors duration-300 rounded-lg hover:bg-white/5 whitespace-nowrap">
+                  {link.icon && <link.icon size={13} className="opacity-70" />}
+                  {link.label}
+                </a>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="hidden xl:flex items-center gap-3">
+          <span className="hidden 2xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pixly-accent/15 border border-pixly-accent/25 text-pixly-accent text-xs font-semibold">
+            <FaRobot size={11} />
+            {t.nav.aiBadge}
+          </span>
+          <LanguageSwitcher />
+          <Link href="/#contact" passHref>
+            <a className="btn-primary text-sm !py-2.5 !px-5 whitespace-nowrap">
+              {t.nav.cta}
+            </a>
+          </Link>
+        </div>
+
+        {/* Mobile toggle */}
+        <div className="flex xl:hidden items-center gap-2">
+          <LanguageSwitcher />
+          <button
+            className="p-2 text-white border border-white/20 rounded-lg hover:bg-white/10 transition-colors"
+            onClick={() => setNavOpen(!navOpen)}
+            aria-label={navOpen ? "Close menu" : "Open menu"}
+            aria-expanded={navOpen}
+          >
+            {navOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      <div
+        className={`xl:hidden fixed inset-0 top-0 bg-pixly-primary/98 backdrop-blur-xl transition-all duration-500 ease-premium ${
           navOpen
-            ? `bg-gray-900 text-white absolute left-0 top-0 w-screen h-screen flex flex-col justify-center items-center`
-            : `hidden md:flex items-center`
-        }
+            ? "opacity-100 visible"
+            : "opacity-0 invisible pointer-events-none"
+        }`}
       >
-        <button
-          className={
-            navOpen
-              ? `absolute right-4 top-4 p-2`
-              : `md:hidden text-xl border border-gray-100 p-2`
-          }
-          onClick={handleNavbar}
-        >
-          <ImCross />
-        </button>
-        <li className="my-2 mx-4 text-md text-gray-300 hover:text-red-500 duration-300">
-          <Link href="/" passHref>
-            Home
+        <div className="flex flex-col items-center justify-center h-full gap-1 px-6">
+          <p className="text-pixly-accent text-sm font-semibold mb-4 flex items-center gap-2">
+            <FaRobot size={14} />
+            {t.nav.tagline}
+          </p>
+          {navLinks.map((link, i) => (
+            <Link key={link.href} href={link.href} passHref>
+              <a
+                onClick={closeMenu}
+                className="flex items-center gap-3 text-xl font-semibold text-white/90 hover:text-pixly-accent transition-all duration-300 py-3"
+              >
+                {link.icon && <link.icon size={18} className="text-pixly-accent/70" />}
+                {link.label}
+              </a>
+            </Link>
+          ))}
+          <Link href="/#contact" passHref>
+            <a onClick={closeMenu} className="btn-primary mt-6 text-lg">
+              {t.nav.cta}
+            </a>
           </Link>
-        </li>
-        <li className="my-2 mx-4 text-md text-gray-300 hover:text-red-500 duration-300">
-          <Link href="/services" passHref>
-            Services
-          </Link>
-        </li>
-        <li className="my-2 mx-4 text-md text-gray-300 hover:text-red-500 duration-300">
-          <Link href="/" passHref>
-            Blog
-          </Link>
-        </li>
-        <li className="my-2 mx-4 text-md text-gray-300 hover:text-red-500 duration-300">
-          <Link href="/" passHref>
-            About
-          </Link>
-        </li>
-        <li className="my-2 mx-4 text-md text-gray-300 hover:text-red-500 duration-300">
-          <Link href="/" passHref>
-            Contact
-          </Link>
-        </li>
-      </ul>
-      <button
-        className="md:hidden text-xl border border-gray-100 p-2"
-        onClick={handleNavbar}
-      >
-        <FaBars />
-      </button>
-    </div>
+        </div>
+      </div>
+    </nav>
   );
 };
 

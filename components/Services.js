@@ -1,75 +1,76 @@
 import Link from "next/link";
 import React from "react";
-import { FaPython, FaReact } from "react-icons/fa";
-import { GoGraph } from "react-icons/go";
-import { ImAndroid } from "react-icons/im";
+import {
+  FaPalette,
+  FaHashtag,
+  FaPenFancy,
+  FaBullhorn,
+  FaChartBar,
+  FaAward,
+} from "react-icons/fa";
+import { useLanguage } from "../context/LanguageContext";
+
+const serviceIcons = {
+  creativeDesign: FaPalette,
+  socialMedia: FaHashtag,
+  contentCreation: FaPenFancy,
+  advertising: FaBullhorn,
+  reporting: FaChartBar,
+  brandIdentity: FaAward,
+};
+
+const serviceKeys = [
+  "creativeDesign",
+  "socialMedia",
+  "contentCreation",
+  "advertising",
+  "reporting",
+  "brandIdentity",
+];
 
 const Services = () => {
+  const { t } = useLanguage();
+
   return (
-    <div className="bg-gray-900 text-white py-20">
-      <div className="container flex flex-wrap w-4/5">
-        <div className="container lg:w-2/5">
-          <h1 className="text-6xl font-bold">Services</h1>
-          <p className="text-lg text-gray-600 my-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-            esse eveniet deleniti reprehenderit perspiciatis. Iure laudantium
-            ratione quia, eum necessitatibus eveniet iusto. Nemo quod alias
-            culpa enim aperiam hic corporis.
-          </p>
-          <p className="text-white w-fit relative before:content-[''] before:absolute before:left-0 before:bottom-0 before:bg-pink-500 before:h-1 before:w-1/2 hover:before:w-full before:duration-500 ">
-            <Link href="/" passHref>
-              Request Custom Service
-            </Link>
-          </p>
+    <section id="services" className="section-padding bg-pixly-surface">
+      <div className="container">
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <span className="section-label">{t.services.label}</span>
+          <h2 className="section-title">{t.services.title}</h2>
+          <p className="section-subtitle mx-auto">{t.services.subtitle}</p>
         </div>
-        <div className="container flex flex-wrap lg:w-3/5">
-          <div className="card w-80 px-6 py-8 rounded-xl hover:-translate-y-3 hover:bg-gradient-to-r from-pink-500 to-violet-500 duration-300 cursor-pointer">
-            <div className="text-5xl">
-              <GoGraph />
-            </div>
-            <div className="text-3xl my-4">Bussiness Strategy</div>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-              esse eveniet deleniti reprehenderit perspiciatis. Iure laudantium
-              ratione quia,
-            </p>
-          </div>
-          <div className="card w-80 px-6 py-8 rounded-xl hover:-translate-y-3 hover:bg-gradient-to-r from-pink-500 to-violet-500 duration-300 cursor-pointer">
-            <div className="text-5xl">
-              <ImAndroid />
-            </div>
-            <div className="text-3xl my-4">App Development</div>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-              esse eveniet deleniti reprehenderit perspiciatis. Iure laudantium
-              ratione quia,
-            </p>
-          </div>
-          <div className="card w-80 px-6 py-8 rounded-xl hover:-translate-y-3 hover:bg-gradient-to-r from-pink-500 to-violet-500 duration-300 cursor-pointer">
-            <div className="text-5xl">
-              <FaReact />
-            </div>
-            <div className="text-3xl my-4">Web Development</div>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-              esse eveniet deleniti reprehenderit perspiciatis. Iure laudantium
-              ratione quia,
-            </p>
-          </div>
-          <div className="card w-80 px-6 py-8 rounded-xl hover:-translate-y-3 hover:bg-gradient-to-r from-pink-500 to-violet-500 duration-300 cursor-pointer">
-            <div className="text-5xl">
-              <FaPython />
-            </div>
-            <div className="text-3xl my-4">Software Development</div>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-              esse eveniet deleniti reprehenderit perspiciatis. Iure laudantium
-              ratione quia,
-            </p>
-          </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {serviceKeys.map((key, index) => {
+            const Icon = serviceIcons[key];
+            const service = t.services.items[key];
+            return (
+              <div
+                key={key}
+                className="card-base group cursor-default text-center sm:text-start"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="w-14 h-14 mx-auto sm:mx-0 rounded-full border-2 border-pixly-accent flex items-center justify-center mb-5 bg-pixly-accent/10 group-hover:bg-pixly-accent/20 group-hover:shadow-glow transition-all duration-300">
+                  <Icon className="text-xl text-pixly-accent" />
+                </div>
+                <h3 className="text-lg font-bold text-pixly-primary mb-3">
+                  {service.title}
+                </h3>
+                <p className="text-pixly-text-secondary leading-relaxed text-sm">
+                  {service.description}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="text-center">
+          <Link href="/#contact" passHref>
+            <a className="btn-outline">{t.services.cta}</a>
+          </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
